@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Ticket</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- fontawesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!--Header and Menu Section-->
+    <header class="container">
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a class="active" href="#">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!--Booking Section-->
+    <main class="main-content container">
+
+        <div class="booking-content">
+            <h1>Mega City Bus</h1>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen book.</p>
+        </div>
+
+
+        <div class="booking-form">
+            <h3>Explore By Bus</h3>
+
+            <div class="inputs">
+                <div class="input-group">
+                    <label" for="">From</label>
+                        <input class="inp-style" type="text" name="" placeholder="Dhaka">
+                </div>
+                <div class="input-group">
+                    <label" for="">From</label>
+                        <input class="inp-style" type="text" name="" placeholder="Chittagone">
+                </div>
+            </div>
+
+            <div class="inputs">
+                <div class="input-group">
+                    <label" for="">Departure</label>
+                        <input class="inp-style" type="date" name="">
+                </div>
+                <div class="input-group">
+                    <label for="">Return</label>
+                    <input class="inp-style" type="date" name="">
+                </div>
+            </div>
+
+            <div class="inputs">
+                <!-- first class  -->
+                <div class="input-group f-class">
+                    <div>
+                        <label for="">First Class ($150)</label>
+                        <input id="case-count" class="inp-style inp-width" type="text" name="" value="0">
+                    </div>
+                    <div class="plus-minus-btn">
+                        <p>
+                            <span onclick="ticketing('case', true)"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                            <span onclick="ticketing('case', false)"><i class="fa fa-minus"
+                                    aria-hidden="true"></i></span>
+                        </p>
+                    </div>
+                </div>
+                <!-- end first class-->
+
+                <!-- economy class-->
+                <div class="input-group f-class">
+                    <div>
+                        <label for="">Economy ($100)</label>
+                        <input id="economy-count" class="inp-style inp-width" type="text" name="" value="0">
+                    </div>
+                    <div class="plus-minus-btn">
+                        <p>
+                            <span onclick="ticketing('economy', true)"><i class="fa fa-plus"
+                                    aria-hidden="true"></i></span>
+                            <span onclick="ticketing('economy', false)"><i class="fa fa-minus"
+                                    aria-hidden="true"></i></span>
+                        </p>
+                    </div>
+                </div>
+                <!--end economy class -->
+            </div>
+
+            <div class="calculations">
+                <div class="amount">
+                    <div class="left">
+                        <p>Subtotal</p>
+                    </div>
+                    <div class="right">
+                        <p>$<span id="subtotal">0</span></p>
+                    </div>
+                </div>
+
+                <div class="amount">
+                    <div class="left">
+                        <p>Charge 10% VAT</p>
+                    </div>
+                    <div class="right">
+                        <p>$<span id="tax-amount"></span></p>
+                    </div>
+                </div>
+                <hr>
+                <div class="amount">
+                    <div class="left">
+                        <h4>Total</h4>
+                    </div>
+                    <div class="right">
+                        <p>$<span id="total-taka"></span></p>
+                    </div>
+                </div>
+            </div>
+            <button id="ticketBooking" class="btn-style">Book Now</button>
+        </div>
+    </main>
+    <!--end main-->
+
+
+
+    <!-- javascript-->
+    <script>
+        function ticketing(ticketType, isIncrease) {
+            const ticketInput = document.getElementById(ticketType + '-count');
+            const ticketCount = parseInt(ticketInput.value);
+
+            let ticketNumberNew = ticketCount;
+
+            if (isIncrease == true) {
+                ticketNumberNew = ticketCount + 1;
+            }
+
+            if (isIncrease == false && ticketCount > 0) {
+                ticketNumberNew = ticketCount - 1;
+            }
+
+            ticketInput.value = ticketNumberNew;
+            let totalTicketCosting = 0;
+
+            if (ticketType == 'case') {
+                totalTicketCosting = ticketNumberNew * 150;
+            }
+            if (ticketType == 'economy') {
+                totalTicketCosting = ticketNumberNew * 100;
+            }
+            subTotal();
+        }
+
+
+        function subTotal() {
+            const firstClassTicketInput = document.getElementById('case-count');
+            const totalFirstClassTicket = parseInt(firstClassTicketInput.value);
+
+            const economyClassTicketInput = document.getElementById('economy-count');
+            const totalEconomyClassTicket = parseInt(economyClassTicketInput.value);
+
+            const totalCosting = (totalFirstClassTicket * 150 + totalEconomyClassTicket * 100);
+            console.log(totalCosting);
+            document.getElementById('subtotal').innerText = totalCosting;
+
+            //calculate tax
+            const tax = totalCosting * .1;
+            console.log(tax);
+            document.getElementById('tax-amount').innerText = tax;
+
+            //calculate grandTotal
+            const grandTotal = totalCosting + tax;
+            document.getElementById('total-taka').innerText = grandTotal;
+        }
+
+        //booking button
+        document.getElementById('ticketBooking').addEventListener('click', function () {
+            alert("Your ticket has confirmed");
+        })
+    </script>
+
+    <!--Thank You-->
+</body>
+
+</html>
